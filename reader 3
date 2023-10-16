@@ -1,0 +1,69 @@
+// using System;
+// using System.Collections.Generic;
+// using System.IO;
+// using System.Linq;
+
+// public class RechnungModel
+// {
+//     public int KundenNr { get; set; }
+//     public int ArtikelNr { get; set; }
+//     public int Anzahl { get; set; }
+// }
+
+// public class KundenModel 
+// {
+//     public int KundenNr { get; set; }
+//     public string Name { get; set; }
+//     public string Strasse { get; set; }
+//     public string Ort { get; set; }
+// }
+
+// public class ArtikelModel
+// {
+//     public int ArtikelNr { get; set; } 
+//     public string Name { get; set; }
+//     public float Preis { get; set; }
+// }
+
+// internal class Program
+// {
+//     static void Main(string[] args)
+//     {
+//         var csvPath = @"D:\Aufgabe NICETEC\Rechnung.csv";
+//         using (var reader = new StreamReader(csvPath))
+//         {
+//             while (reader.EndOfStream == false)
+//             {
+//                 var content = reader.ReadLine();
+//                 content = content?.Trim();
+//                 //var cells = content.Split(',').ToList();
+//                 if (RowHasData(cells))
+//                 {
+//                     if (cells.Count >= 3)
+//                     {
+//                         if (int.TryParse(cells[0], out int kundenNr) && int.TryParse(cells[1], out int artikelNr) && int.TryParse(cells[2], out int anzahl))
+//                         {
+//                             var rechnung = new RechnungModel
+//                             {
+//                                 KundenNr = kundenNr,
+//                                 ArtikelNr = artikelNr,
+//                                 Anzahl = anzahl
+//                             };
+
+//                             Console.WriteLine($"KundenNr: {rechnung.KundenNr}, ArtikelNr: {rechnung.ArtikelNr}, Anzahl: {rechnung.Anzahl}");
+//                         }
+//                         else
+//                         {
+//                             Console.WriteLine("ERROR: Konvertierung fehlgeschlagen");
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+
+//     static bool RowHasData(List<string> cells)
+//     {
+//         return cells.Any(x => !string.IsNullOrEmpty(x));
+//     }
+// }
