@@ -1,0 +1,49 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+public class RechnungModel
+{
+    public int KundenNr { get; set; }
+    public int ArtikelNr { get; set; }
+    public int Anzahl { get; set; }
+}
+
+internal class Program
+{
+    static void Main(string[] args)
+    {
+        var csvPath = @"D:\Aufgabe NICETEC\Rechnung.csv";
+        using (var reader = new StreamReader(csvPath))
+        {
+            while (reader.EndOfStream == false)
+            {
+                var content = reader.ReadLine();
+                content = content?.Trim();
+                if (!string.IsNullOrEmpty(content))
+                {
+                    var cells = content.Split(',').Select(cell => cell.Trim()).ToList();
+                    if (cells.Count >= 3)
+                    {
+                        if (int.TryParse(cells[0], out int kundenNr) && int.TryParse(cells[1], out int artikelNr) && int.TryParse(cells[2], out int anzahl))
+                        {
+                            var rechnung = new RechnungModel
+                            {
+                                KundenNr = kundenNr,
+                                ArtikelNr = artikelNr,
+                                Anzahl = anzahl
+                            };
+
+                            Console.WriteLine($"Rechnung - KundenNr: {rechnung.KundenNr}, ArtikelNr: {rechnung.ArtikelNr}, Anzahl: {rechnung.Anzahl}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("ERROR: Konvertierung fehlgeschlagen");
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
