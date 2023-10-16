@@ -86,7 +86,7 @@ public class Kunde
     {  
         List<Kunde> kunden = new List<Kunde>();
 
-        using (StreamReader sr = new StreamReader("Kunden.csv"))
+        using (StreamReader sr = new StreamReader("KundenTEST.csv"))
         {
             string line;
             while ((line = sr.ReadLine()) != null)
@@ -139,7 +139,7 @@ public class Artikel
     {
         List<Artikel> artikels = new List<Artikel>();
 
-        using (StreamReader sr = new StreamReader("Artikel.csv"))
+        using (StreamReader sr = new StreamReader("ArtikelTEST.csv"))
         {
             string line;
             while ((line = sr.ReadLine()) != null)
