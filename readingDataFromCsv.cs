@@ -6,7 +6,7 @@ public class Rechnung
 {
     public int KundenNr { get; set; }
     public int ArtikelNr { get; set; }
-    public int Anzahl { get; set; }
+    public double Anzahl { get; set; }
 
 
     public Rechnung(int kundenNr, int artikelNr, int anzahl)
@@ -110,7 +110,7 @@ public class Artikel
 {
     public int ArtikelNr { get; set; }
     public string Name { get; set; }
-    public float Preis { get; set; }
+    public double Preis { get; set; }
 
     public Artikel(int artikelNr, string name, float preis)
     {
@@ -157,7 +157,6 @@ public class Artikel
         return artikels;
     }
 }
-
 internal class Program
 {
     static void Main(string[] args)
@@ -173,69 +172,65 @@ internal class Program
         List<Artikel> artikels = Artikel.FromCSV();
         foreach (Artikel artikel in artikels)
         {
-            Console.WriteLine($"ArtikelNr: {artikel.ArtikelNr}, Name: {artikel.Name}, Preis: {artikel.Preis}");
+            Console.WriteLine($"ArtikelNr: {artikel.ArtikelNr}, Name: {artikel.Name}, Preis: {artikel.Preis:C}");
         }
+
         Console.WriteLine("-----------------Rechnung----------------");
         List<Rechnung> rechnungen = Rechnung.FromCSV();
+
+        var artikelDictionary = artikels.ToDictionary(a => a.ArtikelNr);
+
         foreach (Rechnung rechnung in rechnungen)
         {
             Console.WriteLine($"KundenNr: {rechnung.KundenNr}, ArtikelNr: {rechnung.ArtikelNr}, Anzahl: {rechnung.Anzahl}");
         }
+
+        Console.WriteLine("---------------Gesamtbetrag--------------");
+        GesamtbetragProKunde(kunden, rechnungen, artikelDictionary);
+    }
+    public static void GesamtbetragProKunde(List<Kunde> kunden, List<Rechnung> rechnungen, Dictionary<int, Artikel> artikelDictionary)
+    {
+        foreach (var kunde in kunden)
+        {
+            var kundenRechnungen = rechnungen.Where(r => r.KundenNr == kunde.KundenNr).ToList();
+
+            double gesamtbetrag = 0;
+            foreach (var rechnung in kundenRechnungen)
+            {
+                if (artikelDictionary.TryGetValue(rechnung.ArtikelNr, out var artikel))
+                {
+                    gesamtbetrag += rechnung.Anzahl * artikel.Preis;
+                }
+            }
+
+            Console.WriteLine($"Kunde: {kunde.Name}, Gesamtbetrag: {gesamtbetrag:C}");
+        }
     }
 }
-
-
-
-
-
-
-
-// using System;
-// using System.Collections.Generic;
-// using System.IO;
-
-// public class Rechnung
-// {
-//     public int KundenNr { get; set; }
-//     public int ArtikelNr { get; set; }
-//     public int Anzahl { get; set; }
-
-//     public Rechnung(int kundenNr, int artikelNr, int anzahl)
-//     {
-//         KundenNr = kundenNr;
-//         ArtikelNr = artikelNr;
-//         Anzahl = anzahl;
-//     }
-
-//     public string ToCSV()
-//     {
-//         return KundenNr + ";" + ArtikelNr + ";" + Anzahl;
-//     }
-
-//     public static void ToCSV(List<Rechnung> rechnungen)
-//     {
-//         using (StreamWriter sw = new StreamWriter("RechnungTEST.csv"))
-//         {
-//             foreach (Rechnung rechnung in rechnungen)
-//             {
-//                 sw.WriteLine(rechnung.ToCSV());
-//             }
-//         }
-//     }
-// }
-
 // internal class Program
 // {
+    
 //     static void Main(string[] args)
 //     {
-//         List<Rechnung> rechnungen = new List<Rechnung>()
+//         Console.WriteLine("-----------------Kunden----------------");
+//         List<Kunde> kunden = Kunde.FromCSV();
+//         foreach (Kunde kunde in kunden)
 //         {
-//             new Rechnung(111, 32323, 9),
-//             new Rechnung(222, 45673, 7),
-//             new Rechnung(333, 452323, 9),
-//             new Rechnung(444, 24673, 7),
-//         };
+//             Console.WriteLine($"KundenNr: {kunde.KundenNr}, Name: {kunde.Name}, Strasse: {kunde.Strasse}, Ort: {kunde.Ort}.");
+//         }
 
-//         Rechnung.ToCSV(rechnungen);
+//         Console.WriteLine("-----------------Artikel----------------");
+//         List<Artikel> artikels = Artikel.FromCSV();
+//         foreach (Artikel artikel in artikels)
+//         {
+//             Console.WriteLine($"ArtikelNr: {artikel.ArtikelNr}, Name: {artikel.Name}, Preis: {artikel.Preis}");
+//         }
+//         Console.WriteLine("-----------------Rechnung----------------");
+//         List<Rechnung> rechnungen = Rechnung.FromCSV();
+//         foreach (Rechnung rechnung in rechnungen)
+//         {
+//             Console.WriteLine($"KundenNr: {rechnung.KundenNr}, ArtikelNr: {rechnung.ArtikelNr}, Anzahl: {rechnung.Anzahl}");
+//         }
+//         GesamtbetragProKunde(kunden, rechnungen);
 //     }
 // }
