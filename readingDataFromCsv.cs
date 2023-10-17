@@ -207,30 +207,3 @@ internal class Program
         }
     }
 }
-// internal class Program
-// {
-    
-//     static void Main(string[] args)
-//     {
-//         Console.WriteLine("-----------------Kunden----------------");
-//         List<Kunde> kunden = Kunde.FromCSV();
-//         foreach (Kunde kunde in kunden)
-//         {
-//             Console.WriteLine($"KundenNr: {kunde.KundenNr}, Name: {kunde.Name}, Strasse: {kunde.Strasse}, Ort: {kunde.Ort}.");
-//         }
-
-//         Console.WriteLine("-----------------Artikel----------------");
-//         List<Artikel> artikels = Artikel.FromCSV();
-//         foreach (Artikel artikel in artikels)
-//         {
-//             Console.WriteLine($"ArtikelNr: {artikel.ArtikelNr}, Name: {artikel.Name}, Preis: {artikel.Preis}");
-//         }
-//         Console.WriteLine("-----------------Rechnung----------------");
-//         List<Rechnung> rechnungen = Rechnung.FromCSV();
-//         foreach (Rechnung rechnung in rechnungen)
-//         {
-//             Console.WriteLine($"KundenNr: {rechnung.KundenNr}, ArtikelNr: {rechnung.ArtikelNr}, Anzahl: {rechnung.Anzahl}");
-//         }
-//         GesamtbetragProKunde(kunden, rechnungen);
-//     }
-// }
